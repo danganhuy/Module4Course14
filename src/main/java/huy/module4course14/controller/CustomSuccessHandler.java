@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Controller
-public class CustomSuccessHandle extends SimpleUrlAuthenticationSuccessHandler {
+public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
@@ -37,9 +37,7 @@ public class CustomSuccessHandle extends SimpleUrlAuthenticationSuccessHandler {
             roles.add(a.getAuthority());
         }
 
-        if (isDba(roles)) {
-            url = "/dba";
-        } else if (isAdmin(roles)) {
+        if (isAdmin(roles)) {
             url = "";
         } else if (isUser(roles)) {
             url = "";
@@ -51,15 +49,11 @@ public class CustomSuccessHandle extends SimpleUrlAuthenticationSuccessHandler {
     }
 
     private boolean isUser(List<String> roles) {
-        return roles.contains("USER");
+        return roles.contains("ROLE_USER");
     }
 
     private boolean isAdmin(List<String> roles) {
-        return roles.contains("ADMIN");
-    }
-
-    private boolean isDba(List<String> roles) {
-        return roles.contains("DBA");
+        return roles.contains("ROLE_ADMIN");
     }
 
     public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
